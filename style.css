@@ -59,6 +59,18 @@ body{
     margin: 0 auto;
 }
 
+#download-btn i{
+    margin-right: 10px;
+    font-size: 20px;
+    position: relative;
+    top: 3px;
+    cursor: pointer;
+}
+
+#download-btn{
+    display: none;
+}
+
 #imgBox img{
     width: 100%;
     padding: 10px;
