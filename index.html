@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="./api.qrserver.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./api.qrserver.png" type="image/x-icon" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
@@ -15,56 +19,64 @@
         <img src="" id="qrImage" />
       </div>
       <button id="btn" onclick="generateQR()">Generate QR Code</button>
+      <button id="download-btn">
+        <i class="bx bxs-download"></i>Download QR
+      </button>
     </div>
     <script>
       let imgBox = document.getElementById("imgBox");
       let qrImage = document.getElementById("qrImage");
       let qrText = document.getElementById("qrText");
       let btn = document.getElementById("btn");
-      var qrData = false
+      let download = document.getElementById("download-btn");
+      var qrData = false;
 
       function generateQR() {
         if (qrText.value.length > 0) {
-            if(qrData===false){
-
-                qrImage.src =
-                "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
-                qrText.value;
-          imgBox.classList.add("show-img");
-          qrData = true
-          changeFrame()
-        }
-        else{
-            qrText.value = ''
-            qrData = false
-            changeFrame()
-            qrImage.src = ''
-            imgBox.classList.remove('show-img')
-        }
-        }
-        else{
-            qrText.classList.add("error")
-            setTimeout(()=>{
-                qrText.classList.remove("error")
-            },1000)
+          if (qrData === false) {
+            qrImage.src =
+              "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
+              qrText.value;
+            imgBox.classList.add("show-img");
+            qrData = true;
+            changeFrame();
+            download.style.display = "block"
+        } else {
+            qrText.value = "";
+            qrData = false;
+            changeFrame();
+            qrImage.src = "";
+            imgBox.classList.remove("show-img");
+            download.style.display = "none"
+          }
+        } else {
+          qrText.classList.add("error");
+          setTimeout(() => {
+            qrText.classList.remove("error");
+          }, 1000);
         }
       }
-      function changeFrame(){
-
-          if(qrData === false){
-              btn.innerHTML = "Generate QR Code"
-              console.log(btn.innerHTML)
-              console.log(qrData)
-            }
-            else{
-                console.log(qrData)
-                btn.innerHTML = "Clear QR"
-            }
+      function changeFrame() {
+        if (qrData === false) {
+          btn.innerHTML = "Generate QR Code";
+          console.log(btn.innerHTML);
+          console.log(qrData);
+        } else {
+          console.log(qrData);
+          btn.innerHTML = "Clear QR";
         }
+      }
 
-        if(qrData===false){
-            qrText.value = ''
-        }
+      if (qrData === false) {
+        qrText.value = "";
+      }
+
+      download.addEventListener("click",()=>{
+        const link = document.createElement('a');
+        link.href = qrImage.src;
+        link.download = qrImage.alt + '.jpg';
+        link.click()
+      })
     </script>
   </body>
 </html>
