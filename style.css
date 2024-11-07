@@ -17,6 +17,18 @@ body{
     background-color: #fff;
     transform: translate(-50%,-50%);
     border-radius: 10px;
+    transition: all 0.5s;
+}
+@media (max-width:500px) {
+    .container{
+        width: 100%;
+        padding: 25px 15px;
+        height: 100vh;
+        border-radius: 0;
+    }
+    #imgBox{
+        min-width: 100%;
+    }
 }
 .container p{
     font-weight: 600;
@@ -42,7 +54,9 @@ body{
     border-radius: 5px;
     box-shadow: 0 10px 10px rgba(0,0,0,0.1);
     margin: 20px 0;
-    font-weight: 500; 
+    font-weight: 500;
+    font-weight: 600;
+    font-size: 17px; 
 } 
 #imgBox{
     width: 200px;
@@ -58,7 +72,7 @@ body{
     padding: 10px;
 }
 #imgBox.show-img{
-    max-height: 300px;
+    max-height: 500px;
     margin: 10px auto;
     border: 1px solid #d1d1d1;
 }
