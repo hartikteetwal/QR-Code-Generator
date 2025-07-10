@@ -12,17 +12,17 @@
     />
   </head>
   <body>
-    <div class="container">
-      <p>Enter your text or URL</p>
-      <input type="text" placeholder="Text or URL" id="qrText" />
-      <div id="imgBox">
-        <img src="" id="qrImage" />
-      </div>
-      <button id="btn" onclick="generateQR()">Generate QR Code</button>
-      <button id="download-btn">
-        <i class="bx bxs-download"></i>Download QR
-      </button>
+  <div class="container">
+    <p>Enter your text or URL</p>
+    <input type="text" placeholder="Text or URL" id="qrText" />
+    <div id="imgBox">
+      <img src="" id="qrImage" alt="qr-code" />
     </div>
+    <button id="btn" onclick="generateQR()">Generate QR Code</button>
+    <button id="download-btn" style="display: none;">
+      <i class="bx bxs-download"></i> Download QR
+    </button>
+  </div>
     <script>
 let imgBox = document.getElementById("imgBox");
 let qrImage = document.getElementById("qrImage");
