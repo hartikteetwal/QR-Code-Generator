@@ -24,59 +24,62 @@
       </button>
     </div>
     <script>
-      let imgBox = document.getElementById("imgBox");
-      let qrImage = document.getElementById("qrImage");
-      let qrText = document.getElementById("qrText");
-      let btn = document.getElementById("btn");
-      let download = document.getElementById("download-btn");
-      var qrData = false;
+let imgBox = document.getElementById("imgBox");
+let qrImage = document.getElementById("qrImage");
+let qrText = document.getElementById("qrText"); // user enters amount here
+let btn = document.getElementById("btn");
+let download = document.getElementById("download-btn");
+let qrData = false;
 
-      function generateQR() {
-        if (qrText.value.length > 0) {
-          if (qrData === false) {
-            qrImage.src =
-              "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
-              qrText.value;
+const upiID = "teetwalhartik@okhdfcbank";
+const name = "Hartik Teetwal";
+
+function generateQR() {
+    const amount = qrText.value.trim();
+
+    if (amount && !isNaN(amount)) {
+        if (qrData === false) {
+            const upiURL = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+            qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(upiURL);
+            qrImage.alt = "upi-qr-code";
             imgBox.classList.add("show-img");
             qrData = true;
             changeFrame();
-            download.style.display = "block"
+            download.style.display = "inline-block";
         } else {
             qrText.value = "";
             qrData = false;
             changeFrame();
             qrImage.src = "";
             imgBox.classList.remove("show-img");
-            download.style.display = "none"
-          }
-        } else {
-          qrText.classList.add("error");
-          setTimeout(() => {
-            qrText.classList.remove("error");
-          }, 1000);
+            download.style.display = "none";
         }
-      }
-      function changeFrame() {
-        if (qrData === false) {
-          btn.innerHTML = "Generate QR Code";
-          console.log(btn.innerHTML);
-          console.log(qrData);
-        } else {
-          console.log(qrData);
-          btn.innerHTML = "Clear QR";
-        }
-      }
+    } else {
+        qrText.classList.add("error");
+        setTimeout(() => qrText.classList.remove("error"), 1000);
+    }
+}
 
-      if (qrData === false) {
-        qrText.value = "";
-      }
+function changeFrame() {
+    btn.innerHTML = qrData ? "Clear QR" : "Generate QR Code";
+}
 
-      download.addEventListener("click",()=>{
-        const link = document.createElement('a');
-        link.href = qrImage.src;
-        link.download = qrImage.alt + '.jpg';
-        link.click()
-      })
+download.addEventListener("click", () => {
+    fetch(qrImage.src, { mode: 'cors' })
+        .then(res => res.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = "upi-qr-code.jpg";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(() => alert("Failed to download QR code."));
+});
+
     </script>
   </body>
 </html>
